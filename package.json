@@ -1,0 +1,26 @@
+{
+  "name": "atelier-questions-api",
+  "description": "atelier-questions-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jzthacoder/atelier-questions-api.git"
+  },
+  "author": "jessie zhao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jzthacoder/atelier-questions-api/issues"
+  },
+  "homepage": "https://github.com/jzthacoder/atelier-questions-api#readme",
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "pg": "^8.8.0"
+  }
+}
