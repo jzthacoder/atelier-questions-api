@@ -1,9 +1,11 @@
+require("dotenv").config();
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
-const db = require('./database');
+const {connectDb} = require('./database');
+// console.log('this is connectdb: ', connectDb)
 var router = require('./routes.js');
 
 // set up middleware
@@ -16,5 +18,9 @@ app.use(morgan('dev'))
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 })
+
+// connect database
+connectDb();
+
 
 
