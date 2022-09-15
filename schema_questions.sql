@@ -47,3 +47,11 @@ COPY answers_photos
 FROM '/Users/jessiezhao/Desktop/HackReactor/SEI/atelier-questions-api/raw_data/answers_photos.csv'
 DELIMITER ','
 CSV HEADER;
+
+SET timezone TO 'US/Pacific';
+
+
+-- SELECT questions.id, questions.date_written,
+--       TIMESTAMP 'epoch' + questions.date_written * INTERVAL '1 millisecond' as unix_date_written
+-- FROM questions;
+
