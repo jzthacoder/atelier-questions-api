@@ -5,9 +5,9 @@ const router = require('express').Router();
 
 // Connect controller methods to corresponding routes
 // TODO NEED TO FIX THE /QUESTIONS controller bc needs product id
-router.get('/questions', controller.questions.get);
-router.post('/questions', controller.questions.post);
-router.put('/questions:question_id/helpful', controller.questions.helpful);
+router.get('/questions/:product_id', controller.questions.get);
+router.post('/questions/:product_id', controller.questions.post);
+router.put('/questions/:question_id/helpful', controller.questions.helpful);
 router.put('/qa/questions/:question_id/report', controller.questions.report);
 
 router.get('/questions/:question_id/answers', controller.answers.get);
