@@ -13,6 +13,47 @@ module.exports = {
     }
     return pool.query(query);
     },
+  // getQuestionsModel: (product_id) => {
+  //   const query = {
+  //     text: `
+  //       select row_to_json(t)
+  //       from (
+  //         select product_id,
+  //         (
+  //           select array_to_json(array_agg(row_to_json(d)))
+  //           from (
+  //             select
+  //           )
+  //         )
+  //       )
+
+
+
+
+  //     select row_to_json(t)
+  //     from (
+  //       select text, pronunciation,
+  //         (
+  //           select array_to_json(array_agg(row_to_json(d)))
+  //           from (
+  //             select part_of_speech, body
+  //             from definitions
+  //             where word_id=words.id
+  //             order by position asc
+  //           ) d
+  //         ) as definitions
+  //       from words
+  //       where text = 'autumn'
+  //     ) t
+  //     `,
+  //     values: product_id
+  //   }
+  
+
+
+
+
+
 
   // TODO: fix all these queries to work with postgres lol
   postQuestionsModel: (params) => {
@@ -29,7 +70,7 @@ module.exports = {
       text: `
         UPDATE questions
         SET helpful = helpful + 1
-        WHERE ID=$1 AND reported 
+        WHERE ID=$1 AND reported
       `
     }
     // return pool.query(`

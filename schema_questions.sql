@@ -50,6 +50,16 @@ CSV HEADER;
 
 SET timezone TO 'US/Pacific';
 
+ALTER TABLE questions
+RENAME COLUMN id TO question_id;
+RENAME COLUMN body TO question_body;
+RENAME COLUMN date_written TO question_date;
+RENAME COLUMN helpful TO question_helpfulness;
+
+ALTER TABLE answers
+RENAME COLUMN date_written TO date;
+RENAME COLUMN helpful TO helpfulness;
+
 
 -- SELECT questions.id, questions.date_written,
 --       TIMESTAMP 'epoch' + questions.date_written * INTERVAL '1 millisecond' as unix_date_written
