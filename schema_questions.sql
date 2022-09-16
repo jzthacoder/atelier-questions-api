@@ -62,6 +62,12 @@ ALTER TABLE questions ALTER COLUMN question_date
 TYPE TIMESTAMP with time zone USING to_timestamp(question_date / 1000);
 
 ALTER TABLE questions ALTER reported TYPE bool USING CASE WHEN reported=0 THEN FALSE ELSE TRUE END;
+
+ALTER TABLE answers ALTER COLUMN date
+TYPE TIMESTAMP with time zone USING to_timestamp(date / 1000);
+
+ALTER TABLE answers ALTER reported TYPE bool USING CASE WHEN reported=0 THEN FALSE ELSE TRUE END;
+
 -- SELECT questions.id, questions.date_written,
 --       TIMESTAMP 'epoch' + questions.date_written * INTERVAL '1 millisecond' as unix_date_written
 -- FROM questions;

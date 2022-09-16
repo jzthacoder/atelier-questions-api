@@ -34,12 +34,13 @@ module.exports = {
   //     values: product_id
   //   },
 
-  getQuestionsModel: (product_id) => {
+  getQuestionsModel: (params) => {
     const query = {
       text: `
         SELECT question_id, question_body, question_date, asker_name, question_helpfulness, reported
+        FROM questions
+        WHERE product_id=${params.product_id}
       `,
-      values: product_id
     }
     return pool.query(query);
   },

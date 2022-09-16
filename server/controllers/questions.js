@@ -2,11 +2,14 @@ const {questions, answers, answersPhotos} = require('../models');
 
 module.exports = {
   get: (req, res) => {
-    let product_id = [req.params.product_id]
-    questions.getQuestionsModel(product_id)
+    const params = req.params;
+    questions.getQuestionsModel(params)
       .then((data) => {
-        console.log('data: ', data.rows);
-        res.status(200).send(data.rows);
+        let dataForClient = {
+          product_id: params.product_id,
+          results: data.rows
+        }
+        res.status(200).json(dataForClient);
       })
       .catch((e) => console.error(e.stack));
   },
