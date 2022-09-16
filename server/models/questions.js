@@ -1,18 +1,18 @@
 const {pool} = require('../database');
 
 module.exports = {
-  getQuestionsModel: (product_id) => {
-    console.log('here is product id: ', product_id)
-    const query= {
-      text: `
-        SELECT *
-        FROM questions
-        WHERE product_id=$1 AND reported != 1;
-      `,
-      values: product_id
-    }
-    return pool.query(query);
-    },
+  // getQuestionsModel: (product_id) => {
+  //   console.log('here is product id: ', product_id)
+  //   const query= {
+  //     text: `
+  //       SELECT *
+  //       FROM questions
+  //       WHERE product_id=$1 AND reported != 1;
+  //     `,
+  //     values: product_id
+  //   }
+  //   return pool.query(query);
+  //   },
   // getQuestionsModel: (product_id) => {
   //   const query = {
   //     text: `
@@ -22,33 +22,30 @@ module.exports = {
   //         (
   //           select array_to_json(array_agg(row_to_json(d)))
   //           from (
-  //             select
-  //           )
-  //         )
-  //       )
-
-
-
-
-  //     select row_to_json(t)
-  //     from (
-  //       select text, pronunciation,
-  //         (
-  //           select array_to_json(array_agg(row_to_json(d)))
-  //           from (
-  //             select part_of_speech, body
-  //             from definitions
-  //             where word_id=words.id
-  //             order by position asc
+  //             SELECT questions.*
+  //             FROM questions
+  //             WHERE product_id=$product_id
   //           ) d
-  //         ) as definitions
-  //       from words
-  //       where text = 'autumn'
-  //     ) t
+  //         ) as results
+  //         FROM questions
+  //         WHERE questions.product_id=$product_id
+  //       ) t
   //     `,
   //     values: product_id
-  //   }
-  
+  //   },
+
+  getQuestionsModel: (product_id) => {
+    const query = {
+      text: `
+        SELECT question_id, question_body, question_date, asker_name, question_helpfulness, reported
+      `,
+      values: product_id
+    }
+    return pool.query(query);
+  },
+
+
+
 
 
 
