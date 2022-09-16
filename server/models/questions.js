@@ -1,12 +1,17 @@
-const db = require('../database');
+const {pool} = require('../database');
 
 module.exports = {
-  getQuestionsModel: (err) => {
-    return pool.query(`
-      SELECT *
-      FROM questions
-      WHERE reported != 1;
-      `)
+  getQuestionsModel: (product_id) => {
+    console.log('here is product id: ', product_id)
+    const query= {
+      text: `
+        SELECT *
+        FROM questions
+        WHERE product_id=$1 AND reported != 1;
+      `,
+      values: ["1"]
+    }
+    return pool.query(query);
     },
 
   postQuestionsModel: (params) => {

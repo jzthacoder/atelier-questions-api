@@ -1,8 +1,13 @@
-const models = require ('../models');
+const {questions, answers, answersPhotos} = require('../models');
 
 module.exports = {
   get: (req, res) => {
-    res.status(200).send('successfully got questions')
+    questions.getQuestionsModel([1])
+      .then((data) => {
+        console.log('data: ', data.rows);
+        res.status(200).send(data.rows);
+      })
+      .catch((err) => console.error(err));
   },
 
   post: (req, res) => {
