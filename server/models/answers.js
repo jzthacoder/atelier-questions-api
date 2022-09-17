@@ -1,14 +1,21 @@
 const {pool} = require('../database');
 
 module.exports = {
-  //TODO
-  getAnswersModel: (err) => {
-    return pool.query(`
-      SELECT *
-      FROM answers
-      WHERE reported != 1;
-      `)
-    },
+  getAnswersModel: (params) => {
+    const query = {
+      text: `
+        SELECT id, body, date, answerer_name, helpfulness,
+        (
+          SELECT array_agg(json_build_object('answer_id', id, 'url', url))
+          FROM answers_photos
+          WHERE answers_photos.answer_id = a.id
+        ) as photos
+        FROM answers a
+        WHERE question_id=${params.question_id}
+      `,
+    }
+    return pool.query(query);
+  },
 
 
   //TODO

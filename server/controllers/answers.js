@@ -2,7 +2,19 @@ const {questions, answers, answersPhotos} = require ('../models');
 
 module.exports = {
   get: (req, res) => {
-    res.status(200).send('successfully got answers')
+    console.log('this is req.params: ', req.params)
+    const params = req.params
+    answers.getAnswersModel(params)
+      .then((data) => {
+        let dataForClient = {
+          question: params.question_id,
+          page: 1,
+          count: data.rows.length,
+          results: data.rows
+        }
+        res.status(200).json(dataForClient);
+      })
+      .catch((e) => console.error(e.stack));
   },
 
   post: (req, res) => {
