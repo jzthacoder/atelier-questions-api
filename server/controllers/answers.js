@@ -1,4 +1,4 @@
-const models = require ('../models');
+const {questions, answers, answersPhotos} = require ('../models');
 
 module.exports = {
   get: (req, res) => {
@@ -10,11 +10,24 @@ module.exports = {
   },
 
   helpful: (req, res) => {
-    res.status(201).send('successfully marked answer as helpful')
+    const params = {id: req.url.split('/')[2]};
+    console.log('this is params: ', params)
+    answers.helpfulAnswersModel(params)
+      .then((data) => {
+        res.status(201).send('successfully marked answer as helpful')
+      })
+      .catch((e) => console.error(e.stack));
+
   },
 
   report: (req, res) => {
-    res.status(201).send('successfully reported answer')
+    const params = {id: req.url.split('/')[2]};
+    console.log('this is params: ', params)
+    answers.reportAnswersModel(params)
+      .then((data) => {
+        res.status(201).send('successfully reported answer')
+      })
+      .catch((e) => console.error(e.stack));
   }
 
 }

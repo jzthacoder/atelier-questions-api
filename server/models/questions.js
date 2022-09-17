@@ -62,19 +62,7 @@ module.exports = {
     return pool.query(query);
   },
 
-
-  // 'answers', (
-  //   SELECT id, body
-  //   FROM answers
-  //   WHERE question_id = q.id
-  // )
-
-
-
-
-
-
-  // TODO: fix all these queries to work with postgres lol
+  // TODO: make post request query
   postQuestionsModel: (params) => {
     return  pool.query(`
       INSERT INTO questions (product_id, body, date_written, asker_name, asker_email)

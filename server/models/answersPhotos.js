@@ -1,4 +1,4 @@
-const db = require('../database');
+const {pool} = require('../database');
 
 module.exports = {
   getAnswersPhotosModel: (err) => {
