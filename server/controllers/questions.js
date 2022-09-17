@@ -33,7 +33,7 @@ module.exports = {
     const params = {question_id: req.url.split('/')[2]};
     questions.reportQuestionsModel(params)
       .then((data) => {
-        res.status(201).sned('successfully reported question')
+        res.status(201).send('successfully reported question')
       })
       .catch((e) => console.error(e.stack));
   }
