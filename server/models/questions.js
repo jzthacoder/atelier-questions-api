@@ -1,38 +1,6 @@
 const {pool} = require('../database');
 
 module.exports = {
-  // getQuestionsModel: (product_id) => {
-  //   console.log('here is product id: ', product_id)
-  //   const query= {
-  //     text: `
-  //       SELECT *
-  //       FROM questions
-  //       WHERE product_id=$1 AND reported != 1;
-  //     `,
-  //     values: product_id
-  //   }
-  //   return pool.query(query);
-  //   },
-  // getQuestionsModel: (product_id) => {
-  //   const query = {
-  //     text: `
-  //       select row_to_json(t)
-  //       from (
-  //         select product_id,
-  //         (
-  //           select array_to_json(array_agg(row_to_json(d)))
-  //           from (
-  //             SELECT questions.*
-  //             FROM questions
-  //             WHERE product_id=$product_id
-  //           ) d
-  //         ) as results
-  //         FROM questions
-  //         WHERE questions.product_id=$product_id
-  //       ) t
-  //     `,
-  //     values: product_id
-  //   },
 
   getQuestionsModel: (params) => {
     const query = {
@@ -40,7 +8,10 @@ module.exports = {
         SELECT question_id, question_body, question_date, asker_name, question_helpfulness, reported,
         (
           SELECT
-              json_object_agg(id, json_build_object('id', id, 'body', body, 'date', date, 'answerer_name', answerer_name, 'helpfulness', helpfulness)) AS answers
+              json_object_agg(id, json_build_object('id', id, 'body', body, 'date', date, 'answerer_name', answerer_name, 'helpfulness', helpfulness, 'photo', (
+                SELECT json_agg(url) FROM answers_photos WHERE answer_id=5
+              )
+              )) AS answers
           FROM (
             SELECT answers.id as id, answers.body as body, answers.date as date, answers.answerer_name as answerer_name, answers.helpfulness as helpfulness
             FROM answers
@@ -68,6 +39,7 @@ module.exports = {
     return pool.query(query);
 
   },
+
 
   helpfulQuestionsModel: (params) => {
     console.log('here is params: ', params)

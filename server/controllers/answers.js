@@ -20,9 +20,16 @@ module.exports = {
   post: (req, res) => {
     const params = req.body;
     console.log('this is req body: ', req.body)
+
     answers.postAnswersModel(params)
       .then((data) => {
-        res.status(201).send('successfully posted in questions')
+        // console.log('here is data after post answer: ', data.rows)
+        const answer_id = data.rows[0].id;
+        params.url.map((url) =>
+        answers.postAnswersPhotosModel([url, answer_id]))
+      })
+      .then((data) => {
+        res.status(201).send('successfully posted an answer')
       })
       .catch((e) => console.error(e.stack))
   },

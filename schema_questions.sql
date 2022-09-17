@@ -75,7 +75,10 @@ SELECT setval(pg_get_serial_sequence('answers', 'id'), coalesce(max(id),0) + 1, 
 
 SELECT setval(pg_get_serial_sequence('answers_photos', 'id'), coalesce(max(id),0) + 1, false) FROM answers_photos;
 
--- SELECT questions.id, questions.date_written,
---       TIMESTAMP 'epoch' + questions.date_written * INTERVAL '1 millisecond' as unix_date_written
--- FROM questions;
 
+
+-- CREATE INDEX questions_product_id_index ON questions(product_id);
+-- CREATE INDEX questions_question_id_index ON questions(question_id);
+-- CREATE INDEX answers_question_id_index ON answers(question_id);
+-- CREATE INDEX answers_id_index ON answers(id);
+-- CREATE INDEX answers_photos_answer_id_index ON answers_photos(answer_id);
