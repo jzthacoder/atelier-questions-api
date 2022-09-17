@@ -37,16 +37,37 @@ module.exports = {
   getQuestionsModel: (params) => {
     const query = {
       text: `
-        SELECT question_id, question_body, question_date, asker_name, question_helpfulness, reported
-        FROM questions
+        SELECT question_id, question_body, question_date, asker_name, question_helpfulness, reported,
+        (
+          SELECT array_agg(json_build_object('id', id, 'body', body))
+          FROM answers
+          WHERE answers.question_id = q.question_id
+        ) as answers
+        FROM questions q
         WHERE product_id=${params.product_id}
       `,
+      // text: `
+      //   SELECT json_build_object(
+      //     'question_id', questions.question_id,
+      //     'question_body', questions.question_body,
+      //     'question_date', questions.question_date,
+      //     'asker_name', questions.asker_name,
+      //     'question_helpfulness', questions.question_helpfulness,
+      //     'reported', questions.reported
+      //   )
+      //   FROM questions
+      //   WHERE product_id = ${params.product_id}
+      // `
     }
     return pool.query(query);
   },
 
 
-
+  // 'answers', (
+  //   SELECT id, body
+  //   FROM answers
+  //   WHERE question_id = q.id
+  // )
 
 
 
@@ -62,29 +83,27 @@ module.exports = {
       )
     },
 
-  helpfulQuestionsModel: (question_id) => {
-    console.log('here is question_id: ', question_id)
+  helpfulQuestionsModel: (params) => {
+    console.log('here is params: ', params)
+    console.log('here is question_id: ', params.question_id)
     const query = {
       text: `
         UPDATE questions
-        SET helpful = helpful + 1
-        WHERE ID=$1 AND reported
+        SET question_helpfulness = question_helpfulness + 1
+        WHERE question_id=${params.question_id};
       `
     }
-    // return pool.query(`
-    // UPDATE questions
-    // SET helpful = helpful + 1
-    // WHERE id = ?`,
-    // question_id
-    // )
+    return pool.query(query);
   },
 
-  reportQuestionsModel: (question_id) => {
-    return pool.query(`
-    UPDATE questions
-    SET report = 1
-    WHERE id = ?;`,
-    question_id
-    )
+  reportQuestionsModel: (params) => {
+    const query = {
+      text: `
+        UPDATE questions
+        SET reported=TRUE
+        WHERE question_id=${params.question_id} AND reported=FALSE;
+      `
+    }
+    return pool.query(query);
   }
 }

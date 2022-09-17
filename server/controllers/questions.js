@@ -3,6 +3,7 @@ const {questions, answers, answersPhotos} = require('../models');
 module.exports = {
   get: (req, res) => {
     const params = req.params;
+    console.log('in get here are params', params)
     questions.getQuestionsModel(params)
       .then((data) => {
         let dataForClient = {
@@ -19,10 +20,21 @@ module.exports = {
   },
 
   helpful: (req, res) => {
-    res.status(201).send('successfully marked question as helpful')
+    const params = {question_id: req.url.split('/')[2]};
+    console.log('this is params: ', params)
+    questions.helpfulQuestionsModel(params)
+      .then((data) => {
+        res.status(201).send('successfully marked question as helpful')
+      })
+      .catch((e) => console.error(e.stack));
   },
 
   report: (req, res) => {
-    res.status(201).send('successfully reported question')
+    const params = {question_id: req.url.split('/')[2]};
+    questions.reportQuestionsModel(params)
+      .then((data) => {
+        res.status(201).sned('successfully reported question')
+      })
+      .catch((e) => console.error(e.stack));
   }
 }
