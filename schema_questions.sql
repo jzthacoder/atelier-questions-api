@@ -68,6 +68,13 @@ TYPE TIMESTAMP with time zone USING to_timestamp(date / 1000);
 
 ALTER TABLE answers ALTER reported TYPE bool USING CASE WHEN reported=0 THEN FALSE ELSE TRUE END;
 
+-- fix serial
+SELECT setval(pg_get_serial_sequence('questions', 'question_id'), coalesce(max(question_id),0) + 1, false) FROM questions;
+
+SELECT setval(pg_get_serial_sequence('answers', 'id'), coalesce(max(id),0) + 1, false) FROM answers;
+
+SELECT setval(pg_get_serial_sequence('answers_photos', 'id'), coalesce(max(id),0) + 1, false) FROM answers_photos;
+
 -- SELECT questions.id, questions.date_written,
 --       TIMESTAMP 'epoch' + questions.date_written * INTERVAL '1 millisecond' as unix_date_written
 -- FROM questions;

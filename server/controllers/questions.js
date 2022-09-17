@@ -16,8 +16,19 @@ module.exports = {
   },
 
   post: (req, res) => {
-    res.status(201).send('sucessfully posted in questions')
+    const params = req.body;
+    console.log('this is req body: ', req.body)
+    questions.postQuestionsModel(params)
+      .then((data) => {
+        res.status(201).send('successfully posted in questions')
+      })
+      .catch((e) => console.error(e.stack))
   },
+
+  // "body": "Is this product durable (test question)?",
+  // "name": "jayzee",
+  // "email": "testemail@gmail.com",
+  // "product_id": 65635
 
   helpful: (req, res) => {
     const params = {question_id: req.url.split('/')[2]};

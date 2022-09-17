@@ -18,13 +18,17 @@ module.exports = {
   },
 
 
-  //TODO
   postAnswersModel: (params) => {
-    return  pool.query(`
-      INSERT INTO answers (question_id, body, date_written, answerer_name, answerer_email)
-      VALUES (?, ?, ?, ?, ?);`,
-      params
-      )
+    console.log('in models here are params: ', params)
+    const query = {
+      text: `
+        INSERT INTO answers (body, answerer_name, answerer_email, question_id, date, reported)
+        VALUES ($1, $2, $3, $4, NOW(), false)
+        ;
+      `,
+      values: [params.body, params.name, params.email, params.question_id]
+    }
+    return pool.query(query);
     },
 
   helpfulAnswersModel: (params) => {

@@ -39,37 +39,35 @@ module.exports = {
       text: `
         SELECT question_id, question_body, question_date, asker_name, question_helpfulness, reported,
         (
-          SELECT array_agg(json_build_object('id', id, 'body', body))
-          FROM answers
-          WHERE answers.question_id = q.question_id
-        ) as answers
+          SELECT
+              json_object_agg(id, json_build_object('id', id, 'body', body, 'date', date, 'answerer_name', answerer_name, 'helpfulness', helpfulness)) AS answers
+          FROM (
+            SELECT answers.id as id, answers.body as body, answers.date as date, answers.answerer_name as answerer_name, answers.helpfulness as helpfulness
+            FROM answers
+            WHERE q.question_id = answers.question_id
+          ) as nested_answers
+        )
         FROM questions q
         WHERE product_id=${params.product_id}
-      `,
-      // text: `
-      //   SELECT json_build_object(
-      //     'question_id', questions.question_id,
-      //     'question_body', questions.question_body,
-      //     'question_date', questions.question_date,
-      //     'asker_name', questions.asker_name,
-      //     'question_helpfulness', questions.question_helpfulness,
-      //     'reported', questions.reported
-      //   )
-      //   FROM questions
-      //   WHERE product_id = ${params.product_id}
-      // `
+      `
     }
+
     return pool.query(query);
   },
 
   // TODO: make post request query
   postQuestionsModel: (params) => {
-    return  pool.query(`
-      INSERT INTO questions (product_id, body, date_written, asker_name, asker_email)
-      VALUES (?, ?, ?, ?, ?);`,
-      params
-      )
-    },
+    const query = {
+      text: `
+        INSERT INTO questions (question_body, asker_name, asker_email, product_id, question_date, reported)
+        VALUES ($1, $2, $3, $4, NOW(), false)
+        ;
+      `,
+      values: [params.body, params.name, params.email, params.product_id]
+    }
+    return pool.query(query);
+
+  },
 
   helpfulQuestionsModel: (params) => {
     console.log('here is params: ', params)

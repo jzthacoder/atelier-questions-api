@@ -18,7 +18,13 @@ module.exports = {
   },
 
   post: (req, res) => {
-    res.status(201).send('sucessfully posted in answers')
+    const params = req.body;
+    console.log('this is req body: ', req.body)
+    answers.postAnswersModel(params)
+      .then((data) => {
+        res.status(201).send('successfully posted in questions')
+      })
+      .catch((e) => console.error(e.stack))
   },
 
   helpful: (req, res) => {
