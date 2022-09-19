@@ -75,10 +75,11 @@ SELECT setval(pg_get_serial_sequence('answers', 'id'), coalesce(max(id),0) + 1, 
 
 SELECT setval(pg_get_serial_sequence('answers_photos', 'id'), coalesce(max(id),0) + 1, false) FROM answers_photos;
 
+-- script for loading data
+-- "load-data": "psql postgres -f schema_questions.sql"
 
-
--- CREATE INDEX questions_product_id_index ON questions(product_id);
--- CREATE INDEX questions_question_id_index ON questions(question_id);
--- CREATE INDEX answers_question_id_index ON answers(question_id);
--- CREATE INDEX answers_id_index ON answers(id);
--- CREATE INDEX answers_photos_answer_id_index ON answers_photos(answer_id);
+CREATE INDEX questions_product_id_index ON questions(product_id);
+CREATE INDEX questions_question_id_index ON questions(question_id);
+CREATE INDEX answers_question_id_index ON answers(question_id);
+CREATE INDEX answers_id_index ON answers(id);
+CREATE INDEX answers_photos_answer_id_index ON answers_photos(answer_id);
