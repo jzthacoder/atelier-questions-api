@@ -23,7 +23,7 @@ module.exports = {
 
     answers.postAnswersModel(params)
       .then((data) => {
-        // console.log('here is data after post answer: ', data.rows)
+        console.log('here is data after post answer: ', data.rows)
         const answer_id = data.rows[0].id;
         params.url.map((url) =>
         answers.postAnswersPhotosModel([url, answer_id]))
