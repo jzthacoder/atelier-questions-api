@@ -15,9 +15,12 @@ app.use(morgan('dev'))
 // TODO: connect to client?
 
 
+
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 })
+
+
 
 // set up routes
 app.use('/qa', router);
