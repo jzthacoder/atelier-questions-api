@@ -14,7 +14,11 @@ app.use(morgan('dev'))
 
 // TODO: connect to client?
 
-
+// disable cors
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
