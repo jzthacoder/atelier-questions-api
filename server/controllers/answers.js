@@ -2,7 +2,7 @@ const {questions, answers, answersPhotos} = require ('../models');
 
 module.exports = {
   get: (req, res) => {
-    console.log('this is req.params: ', req.params)
+    // console.log('this is req.params: ', req.params)
     const params = req.params
     answers.getAnswersModel(params)
       .then((data) => {
@@ -23,7 +23,7 @@ module.exports = {
 
     answers.postAnswersModel(params)
       .then((data) => {
-        console.log('here is data after post answer: ', data.rows)
+        // console.log('here is data after post answer: ', data.rows)
         const answer_id = data.rows[0].id;
         params.url.map((url) =>
         answers.postAnswersPhotosModel([url, answer_id]))
@@ -36,7 +36,7 @@ module.exports = {
 
   helpful: (req, res) => {
     const params = {id: req.url.split('/')[2]};
-    console.log('this is params: ', params)
+    // console.log('this is params: ', params)
     answers.helpfulAnswersModel(params)
       .then((data) => {
         res.status(201).send('successfully marked answer as helpful')
@@ -47,7 +47,7 @@ module.exports = {
 
   report: (req, res) => {
     const params = {id: req.url.split('/')[2]};
-    console.log('this is params: ', params)
+    // console.log('this is params: ', params)
     answers.reportAnswersModel(params)
       .then((data) => {
         res.status(201).send('successfully reported answer')
