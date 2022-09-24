@@ -3,7 +3,7 @@ const {questions, answers, answersPhotos} = require('../models');
 module.exports = {
   get: (req, res) => {
     const params = req.params;
-    console.log('in get here are params', params)
+    // console.log('in get here are params', params)
     questions.getQuestionsModel(params)
       .then((data) => {
         let dataForClient = {
@@ -17,7 +17,7 @@ module.exports = {
 
   post: (req, res) => {
     const params = req.body;
-    console.log('this is req body: ', req.body)
+    // console.log('this is req body: ', req.body)
     questions.postQuestionsModel(params)
       .then((data) => {
         res.status(201).send('successfully posted in questions')
